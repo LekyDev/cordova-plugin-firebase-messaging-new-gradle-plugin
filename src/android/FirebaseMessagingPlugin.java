@@ -181,6 +181,8 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
     static void sendNotification(RemoteMessage remoteMessage) {
         JSONObject notificationData = new JSONObject(remoteMessage.getData());
         RemoteMessage.Notification notification = remoteMessage.getNotification();
+        Log.e(TAG, "Data Payload: " + remoteMessage.getData().toString());
+        Log.e(TAG, "JSON Payload: " + notificationData.toString());
         try {
             // Check for the 'type' in the data field
             if (notificationData.has("type") && "noopener".equals(notificationData.getString("type"))) {

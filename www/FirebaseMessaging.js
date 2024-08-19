@@ -80,6 +80,7 @@ exports.onMessage =
  */
 function(callback, errorCallback) {
     exec(function(payload) {
+        console.log(payload)
         // Check for the noopener type in the data field
         if (payload.data && payload.data.type === 'noopener') {
             // Perform the desired action when type is 'noopener'
