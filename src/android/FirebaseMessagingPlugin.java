@@ -143,7 +143,7 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
             callbackContext.success();
         } else if (Build.VERSION.SDK_INT >= 33) {
             requestPermissionCallback = callbackContext;
-            //PermissionHelper.requestPermission(this, 0, Manifest.permission.POST_NOTIFICATIONS);
+            PermissionHelper.requestPermission(this, 0, Manifest.permission.POST_NOTIFICATIONS);
         } else {
             callbackContext.error("Notifications permission is not granted");
         }
@@ -182,6 +182,16 @@ public class FirebaseMessagingPlugin extends ReflectiveCordovaPlugin {
         JSONObject notificationData = new JSONObject(remoteMessage.getData());
         RemoteMessage.Notification notification = remoteMessage.getNotification();
         try {
+            // Check for the 'type' in the data field
+            if (notificationData.has("type") && "noopener".equals(notificationData.getString("type"))) {
+                // Handle 'noopener' type without showing notification
+                Log.d(TAG, "Received noopener type message");
+
+                // Add custom action here (if needed)
+                
+                return; // Exit without showing notification
+            }
+
             if (notification != null) {
                 notificationData.put("gcm", toJSON(notification));
             }
